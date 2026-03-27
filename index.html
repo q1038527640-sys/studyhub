@@ -1486,12 +1486,11 @@ function triggerSave() {
     if (!triggerSave._sizeAlerted) {
       triggerSave._sizeAlerted = true;
       setTimeout(() => {
-        alert(
-          '⚠️ Your data is very large (' + (bytes/1024).toFixed(0) + ' KB) and cannot be saved safely.
+         alert(
+         `⚠️ Your data is very large (${(bytes/1024).toFixed(0)} KB) and cannot be saved safely.
 
-' +
-          'Please delete some old flashcard sets, notes, or events to free up space.'
-        );
+         Please delete some old flashcard sets, notes, or events to free up space.`
+      );
         triggerSave._sizeAlerted = false;
       }, 100);
     }
