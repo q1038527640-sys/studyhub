@@ -30,7 +30,7 @@
   --bg2: #111119;
   --surface: #18181f;
   --surface2: #1f1f2a;
-  --surface3: #26263400;
+  --surface3: #26263a;
   --border: #2c2c3e;
   --border2: #3a3a52;
   --accent: #818cf8;
@@ -1211,9 +1211,16 @@ option { background: var(--surface2); }
 
           <div class="settings-section">
             <div class="settings-section-title">Data</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:14px">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--text)">Storage Used</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:2px">Data synced to Firestore (1 MB limit per account)</div>
+              </div>
+              <div id="settings-data-size" style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;color:var(--text2)">—</div>
+            </div>
             <div class="danger-zone">
               <div class="danger-zone-title">⚠️ Clear All Data</div>
-              <div class="danger-zone-desc">This will permanently delete all your tasks, events, notes, flashcard sets, and subjects. This cannot be undone.</div>
+              <div class="danger-zone-desc">This will permanently delete all your tasks, events, notes, flashcard sets, and subjects. This action is irreversible.</div>
               <button class="btn btn-danger" onclick="clearAllData()">Clear All My Data</button>
             </div>
           </div>
@@ -1275,27 +1282,43 @@ option { background: var(--surface2); }
 ══════════════════════════════════════════════ -->
 <script>
 // ════════════════════════════════════════════════
-//  ⚠️  FIREBASE CONFIGURATION
-//  1. Go to https://console.firebase.google.com
-//  2. Create a project → Add a Web app
-//  3. Copy your config here
-//  4. Enable Authentication → Email/Password
-//  5. Enable Firestore Database (start in test mode)
+//  FIREBASE CONFIGURATION
+//  ⚠️  NEVER commit real API keys to a public repo.
+//  → Paste your real values directly into FIREBASE_CONFIG
+//    below, OR inject them via window.__SH_* globals before
+//    this script runs (e.g. from a server-rendered template).
+//  → After pasting keys, restrict them in Google Cloud Console
+//    → APIs & Services → Credentials → your Browser key
+//    → "Application restrictions" → HTTP referrers → your domain.
+//
+//  Setup checklist:
+//  1. Firebase Console → your project → Project Settings → Web app → copy config
+//  2. Authentication → Sign-in method → Enable Email/Password
+//  3. Firestore Database → Create database → choose region
+//  4. Firestore → Rules → paste the security rules from SECURITY_RULES.md
 // ════════════════════════════════════════════════
-const firebaseConfig = {
-  apiKey: "AIzaSyAsn_48z4-v-DKYC81xUgOmrT8DKfLjlLg",
-  authDomain: "studyhub-983e8.firebaseapp.com",
-  projectId: "studyhub-983e8",
-  storageBucket: "studyhub-983e8.firebasestorage.app",
-  messagingSenderId: "724774244287",
-  appId: "1:724774244287:web:b818bfe6e9819914685b0a",
-  measurementId: "G-R7JJM0KRX0"
+const FIREBASE_CONFIG = {
+  apiKey:            window.__SH_API_KEY__             || "PASTE_YOUR_API_KEY_HERE",
+  authDomain:        window.__SH_AUTH_DOMAIN__         || "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId:         window.__SH_PROJECT_ID__          || "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket:     window.__SH_STORAGE_BUCKET__      || "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: window.__SH_MESSAGING_SENDER_ID__ || "PASTE_YOUR_SENDER_ID_HERE",
+  appId:             window.__SH_APP_ID__              || "PASTE_YOUR_APP_ID_HERE"
 };
+
+// Config sanity check — remove once keys are set
+if (FIREBASE_CONFIG.apiKey.startsWith("PASTE_")) {
+  console.error(
+    "[StudyHub] ⚠️  Firebase config not set.\n" +
+    "Open index.html and replace the PASTE_YOUR_* placeholders\n" +
+    "with your real Firebase project values."
+  );
+}
 
 // ── INIT FIREBASE ──
 let db, auth;
 try {
-  firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(FIREBASE_CONFIG);
   db   = firebase.firestore();
   auth = firebase.auth();
 } catch(e) {
@@ -1450,8 +1473,42 @@ async function loadData(uid) {
   } catch(e) { console.warn('Load error:', e); }
 }
 
+// Firestore single-document limit is ~1 MB.
+// We warn at 800 KB and block at 950 KB to stay safe.
+const FIRESTORE_WARN_BYTES  = 800_000;
+const FIRESTORE_BLOCK_BYTES = 950_000;
+
+function getDataSizeBytes() {
+  try { return new Blob([JSON.stringify(D)]).size; } catch { return 0; }
+}
+
 function triggerSave() {
   if (!currentUser) return;
+
+  const bytes = getDataSizeBytes();
+  if (bytes >= FIRESTORE_BLOCK_BYTES) {
+    setSyncState('error');
+    console.error(`[StudyHub] Data size ${(bytes/1024).toFixed(0)} KB exceeds safe Firestore limit. Save blocked.`);
+    // Show a one-time alert (throttled so it doesn't spam)
+    if (!triggerSave._sizeAlerted) {
+      triggerSave._sizeAlerted = true;
+      setTimeout(() => {
+        alert(
+          '⚠️ Your data is very large (' + (bytes/1024).toFixed(0) + ' KB) and cannot be saved safely.
+
+' +
+          'Please delete some old flashcard sets, notes, or events to free up space.'
+        );
+        triggerSave._sizeAlerted = false;
+      }, 100);
+    }
+    return;
+  }
+
+  if (bytes >= FIRESTORE_WARN_BYTES) {
+    console.warn(`[StudyHub] Data size ${(bytes/1024).toFixed(0)} KB — approaching Firestore limit. Consider cleaning up old data.`);
+  }
+
   setSyncState('syncing');
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
@@ -1586,6 +1643,17 @@ function initSettings() {
   const t = document.documentElement.getAttribute('data-theme') || 'dark';
   document.querySelectorAll('.theme-card').forEach(c => c.classList.toggle('active', c.dataset.themeName===t));
   loadPrefs();
+  // Update storage size display
+  const bytes = getDataSizeBytes();
+  const kb    = (bytes / 1024).toFixed(1);
+  const pct   = Math.min(100, (bytes / 1_000_000 * 100)).toFixed(1);
+  const el    = document.getElementById('settings-data-size');
+  if (el) {
+    el.textContent = `${kb} KB / 1000 KB (${pct}%)`;
+    el.style.color = bytes >= FIRESTORE_WARN_BYTES
+      ? (bytes >= FIRESTORE_BLOCK_BYTES ? 'var(--red)' : 'var(--yellow)')
+      : 'var(--green)';
+  }
 }
 
 // ── Enter key on auth inputs ──
@@ -2336,12 +2404,29 @@ function studyMissedFc() { studyDeck=studyDeck.filter(c=>fcLearning.has(c.id));s
 //  SETTINGS
 // ════════════════════════════════════════════════
 function clearAllData() {
-  if(!confirm('⚠️ This will permanently delete ALL your data. Type "delete" to confirm.'))return;
-  const answer=prompt('Type "delete" to confirm:');
-  if(answer!=='delete'){alert('Cancelled.');return;}
-  D={events:[],tasks:[],notes:[],subjects:[],fcSets:[]};
-  triggerSave();refreshDash();updateBadges();
-  alert('All data cleared.');
+  if(!confirm('⚠️ WARNING: This will permanently delete ALL your tasks, events, notes, flashcard sets, and subjects.\n\nThis cannot be undone. Continue?')) return;
+  const answer = prompt('To confirm, type DELETE in capitals:');
+  if(answer !== 'DELETE') { alert('Cancelled — nothing was deleted.'); return; }
+  // Keep a snapshot so we can restore if Firestore write fails
+  const backup = JSON.parse(JSON.stringify(D));
+  D = { events:[], tasks:[], notes:[], subjects:[], fcSets:[] };
+  refreshDash(); updateBadges();
+  // Persist — restore on error
+  if (!currentUser) return;
+  setSyncState('syncing');
+  db.collection('users').doc(currentUser.uid).set({
+    events:[], tasks:[], notes:[], subjects:[], fcSets:[],
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(() => {
+    setSyncState('saved');
+    alert('✓ All data has been cleared.');
+  }).catch(e => {
+    console.error('Clear failed, restoring backup:', e);
+    D = backup;
+    refreshDash(); updateBadges();
+    setSyncState('error');
+    alert('❌ Could not clear data — your data has been restored. Check your connection and try again.');
+  });
 }
 
 // ════════════════════════════════════════════════

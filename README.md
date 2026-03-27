@@ -1,113 +1,107 @@
-# 📚 StudyHub — Student Productivity App
+# 📚 StudyHub
 
-Cross-device student productivity hub with login, cloud sync, Quizlet-style flashcards, and 3 visual themes — all in one HTML file.
+A single-file academic productivity app — Calendar, Tasks, Notes, Flashcards, and Pomodoro Timer — backed by Firebase Auth + Firestore.
 
 ---
 
-## ✨ Features
+## 🚀 Quick Start
 
-| Feature | Details |
+### 1. Create a Firebase Project
+1. Go to [https://console.firebase.google.com](https://console.firebase.google.com)
+2. Click **Add project** → give it a name → continue
+3. Click **Add app** (the `</>` web icon) → register your app
+4. Copy the config object shown — you'll need it in Step 3
+
+### 2. Enable Firebase Services
+| Service | Steps |
 |---|---|
-| 🔐 **Login / Register** | Email & password auth via Firebase |
-| ☁️ **Cross-Device Sync** | All data saved to the cloud in real-time |
-| 🌙 **Dark Mode** | Deep indigo — easy on the eyes at night |
-| ☀️ **Light Mode** | Clean white workspace |
-| 🍵 **Eye Protection** | Warm amber tones, reduced blue light |
-| 🃏 **Flashcard Mode** | Flip cards, star, mark Know It / Still Learning |
-| 🧠 **Learn Mode** | Auto-generated multiple-choice questions |
-| ⚡ **Match Mode** | Timed tile-matching game |
-| ✍️ **Write Mode** | Type answers to test recall |
-| 📝 **Test Mode** | Full mixed test, graded with missed cards shown |
-| ⚙️ **Settings** | Theme picker, preferences, account info |
+| **Authentication** | Firebase Console → Authentication → Sign-in method → Email/Password → Enable |
+| **Firestore** | Firebase Console → Firestore Database → Create database → choose region → Start in **production mode** |
 
----
+### 3. Paste Your Firebase Config into `index.html`
+Open `index.html` and find the `FIREBASE_CONFIG` block (search for `PASTE_YOUR_API_KEY_HERE`).
+Replace each `PASTE_YOUR_*_HERE` value with the real values from your Firebase project:
 
-## 🔥 Step 1 — Set Up Firebase (Free, ~5 min)
-
-### 1.1 Create a Firebase Project
-1. Go to **https://console.firebase.google.com**
-2. Click **"Create a project"** → name it anything → Create
-3. Disable Google Analytics (not needed) → Continue
-
-### 1.2 Enable Email/Password Auth
-1. Sidebar → **Build → Authentication → Get started**
-2. Click **Email/Password** → Enable → Save
-
-### 1.3 Create Firestore Database
-1. Sidebar → **Build → Firestore Database → Create database**
-2. Choose **"Start in test mode"** → Next → pick a region → Enable
-
-### 1.4 Get Your Config
-1. Click ⚙️ gear icon → **Project settings**
-2. Scroll to **"Your apps"** → click **Web icon** `</>`
-3. Give it a nickname → **Register app**
-4. Copy the 6 values from the `firebaseConfig` object shown
-
----
-
-## 📝 Step 2 — Add Config to the HTML
-
-Open `index.html` in any text editor and find:
-
-```javascript
+```js
 const FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey:            "AIzaSy...",
+  authDomain:        "myproject.firebaseapp.com",
+  projectId:         "myproject",
+  storageBucket:     "myproject.appspot.com",
+  messagingSenderId: "123456789",
+  appId:             "1:123:web:abc"
 };
 ```
 
-Replace each `"YOUR_..."` with your actual Firebase values. Save the file.
+### 4. Deploy Firestore Security Rules
+**This step is critical — without it, any logged-in user can read everyone's data.**
 
----
+**Option A — Firebase Console (easiest):**
+1. Firebase Console → Firestore Database → **Rules** tab
+2. Delete all existing content
+3. Paste the contents of `firestore.rules`
+4. Click **Publish**
 
-## 🚀 Step 3 — Upload to GitHub & Go Live
-
-1. Go to **github.com** → New repository → name it `studyhub` → Public → Create
-2. Click **Add file → Upload files** → drag `index.html` → Commit
-3. **Settings → Pages** → Branch: `main`, Folder: `/(root)` → Save
-4. After ~60s your app is live at: `https://YOUR-USERNAME.github.io/studyhub/`
-
----
-
-## 🔒 Step 4 — Secure Your Database
-
-In Firebase Console → **Firestore → Rules**, replace with:
-
-```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
+**Option B — Firebase CLI:**
+```bash
+npm install -g firebase-tools
+firebase login
+firebase init firestore   # select your project, accept firestore.rules as the rules file
+firebase deploy --only firestore:rules
 ```
 
-Click **Publish**.
+### 5. Deploy the App
+**Firebase Hosting (recommended — free):**
+```bash
+firebase init hosting     # set public directory to "." (current folder), single-page app: No
+firebase deploy --only hosting
+```
+
+Or just drag `index.html` into any static host (Netlify, Vercel, GitHub Pages).
 
 ---
 
-## 🎹 Keyboard Shortcuts
+## 🔒 Security Checklist
 
-| Key | Action |
-|---|---|
-| `Space` | Flip flashcard |
-| `→` / `↓` | Next card |
-| `←` / `↑` | Previous card |
-| `1` | Mark "Know It" |
-| `2` | Mark "Still Learning" |
-| `Alt + 1–8` | Switch pages |
-| `Escape` | Close modals |
+- [ ] Firebase config values are **not** the `PASTE_YOUR_*` placeholders
+- [ ] Firestore security rules have been published (see `firestore.rules`)
+- [ ] Firebase API key is restricted in [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials → your key → **HTTP referrers** → add your domain
+- [ ] Your repo is **private** OR `index.html` is listed in `.gitignore` (if it contains hardcoded keys)
 
 ---
 
-## ❓ Troubleshooting
+## 📦 Data & Storage Notes
 
-- **Blank screen** → Check browser console (F12) for Firebase config errors
-- **Login fails** → Confirm Email/Password auth is enabled in Firebase
-- **Data not saving** → Confirm Firestore is created and in test mode
+- All user data is stored in a **single Firestore document** per user at `users/{uid}`
+- Firestore has a **1 MB per document limit**
+- StudyHub warns you at **800 KB** and blocks saves at **950 KB** (visible in Settings → Storage Used)
+- If you approach the limit, delete old flashcard sets, notes, or past events
+- Future improvement: migrate `fcSets` to a Firestore subcollection to scale beyond 1 MB
+
+---
+
+## 🛠️ Local Development
+
+No build step needed. Just open `index.html` in a browser — but Firebase Auth requires a real domain (not `file://`).
+
+Use a local server:
+```bash
+# Python
+python3 -m http.server 3000
+
+# Node
+npx serve .
+```
+
+Then open [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🗂️ File Structure
+
+```
+index.html          ← The entire app (HTML + CSS + JS)
+firestore.rules     ← Firestore security rules (deploy to Firebase)
+.gitignore          ← Prevents accidentally committing secrets
+README.md           ← This file
+```
