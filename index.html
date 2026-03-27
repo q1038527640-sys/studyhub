@@ -4,46 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyHub</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+        /* Global Styles */
+        :root {
+            --primary-bg: #f4f4f4;
+            --primary-color: #333;
+            --dark-mode-bg: #121212;
+            --dark-mode-color: #e0e0e0;
+            --blue-accent: #007bff;
+            --purple-accent: #6f42c1;
+            --amber-accent: #ffcc00;
+        }
+        /* Light Mode */
+        .light-mode { background-color: var(--primary-bg); color: var(--primary-color); }
+        /* Dark Mode */
+        .dark-mode { background-color: var(--dark-mode-bg); color: var(--dark-mode-color); }
+        /* Eye Protection Mode */
+        .eye-protection-mode { background-color: #fff3e0; color: #000; }
+        /* Glassmorphism effect */
+        .glass { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 20px; }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Welcome to StudyHub</h1>
-    </header>
+<body class="light-mode">
+    <nav class="sidebar">
+        <h2>StudyHub</h2>
+        <ul>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#flashcards">Flashcards</a></li>
+            <li><a href="#settings">Settings</a></li>
+            <li><a href="#logout">Logout</a></li>
+        </ul>
+    </nav>
     <main>
-        <section id="auth">
-            <h2>Authentication</h2>
-            <form id="login-form">
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-            <form id="register-form">
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit">Register</button>
-            </form>
-        </section>
-        <section id="study-modes">
-            <h2>Study Modes</h2>
-            <button id="flashcards">Flashcards</button>
-            <button id="learn">Learn</button>
-            <button id="test">Test</button>
-        </section>
-        <section id="themes">
-            <h2>Themes</h2>
-            <button id="dark-mode">Dark Mode</button>
-            <button id="light-mode">Light Mode</button>
-            <button id="eye-protection">Eye Protection Mode</button>
-        </section>
+        <header class="top-bar">
+            <h1>Welcome to StudyHub</h1>
+        </header>
         <section id="dashboard">
-            <h2>Dashboard</h2>
-            <p>Statistics and progress will be shown here.</p>
+            <h2>Your Statistics</h2>
+            <div class="glass">
+                <p>Total Cards: 100</p>
+                <p>Learned: 80</p>
+                <p>Study Streak: 5 days</p>
+                <p>Total Hours: 10</p>
+            </div>
+        </section>
+        <section id="flashcards">
+            <h2>Study Flashcards</h2>
+            <div class="flashcards-container">
+                <div class="card" onclick="flipCard(this)">
+                    <div class="front">Question?</div>
+                    <div class="back">Answer</div>
+                </div>
+            </div>
+            <button onclick="startLearnMode()">Learn Mode</button>
+            <button onclick="startTestMode()">Test Mode</button>
+        </section>
+        <section id="settings">
+            <h2>Settings</h2>
+            <div class="glass">
+                <label for="theme">Select Theme:</label>
+                <select id="theme" onchange="changeTheme()">
+                    <option value="light">Light Mode</option>
+                    <option value="dark">Dark Mode</option>
+                    <option value="eye-protection">Eye Protection Mode</option>
+                </select>
+                <button onclick="toggleNotifications()">Toggle Notifications</button>
+            </div>
         </section>
     </main>
-    <footer>
-        <p>© 2026 StudyHub, All Rights Reserved</p>
-    </footer>
-    <script src="app.js"></script>
+    <script>
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+        function changeTheme() {
+            const theme = document.getElementById('theme').value;
+            document.body.className = theme + '-mode';
+        }
+        function toggleNotifications() {
+            alert('Notifications toggled!');
+        }
+        function startLearnMode() {
+            alert('Learning mode started!');
+        }
+        function startTestMode() {
+            alert('Test mode started!');
+        }
+    </script>
 </body>
 </html>
