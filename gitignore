@@ -1,0 +1,25 @@
+# ── StudyHub .gitignore ─────────────────────────
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Firebase local cache
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# If you ever add a build step / env file
+.env
+.env.local
+.env.*.local
+node_modules/
+
+# ⚠️  If you hard-code Firebase keys directly into index.html,
+#     add it here to avoid pushing real credentials:
+# index.html
