@@ -1,156 +1,113 @@
-# 📚 StudyHub — Quizlet-Style Learning Platform
+# 📚 StudyHub — Student Productivity App
 
-A modern, feature-rich student productivity and learning app built as a single HTML file. Study smarter with Quizlet-like flashcard modes, multiple themes, and beautiful UI.
-
-**No frameworks. No installation. No internet required. Just open and learn.**
-
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Status](https://img.shields.io/badge/status-stable-brightgreen)
+Cross-device student productivity hub with login, cloud sync, Quizlet-style flashcards, and 3 visual themes — all in one HTML file.
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
-### 🔐 Authentication
-- User registration and login
-- Email and password validation
-- Session management
-- User profile with avatar
-- Secure logout
-
-### 📚 Quizlet-Style Study Modes
-
-#### 🃏 Flashcards Mode
-- Interactive 3D card flip animations
-- Click to reveal answers
-- Previous/Next navigation
-- Mark cards as "Got it" or "Again"
-- Progress tracking
-- Card statistics
-
-#### 🧠 Learn Mode
-- Multiple-choice questions
-- 4 options per question
-- Instant feedback (green/red)
-- Auto-advance system
-- Progress bar
-- Session summary
-
-#### 📝 Test Mode
-- Timed exam format
-- Real-time countdown timer
-- Full scoring system
-- Percentage-based results
-- Performance analytics
-- Retake option
-
-### 🎨 Three Beautiful Themes
-
-| Theme | Features |
-|-------|----------|
-| **🌙 Dark Mode** | Purple accent, dark background, night-time optimized |
-| **☀️ Light Mode** | Blue accent, white background, professional look |
-| **👁️ Eye Protection** | Warm amber tones, reduced blue light, extended study comfort |
-
-### 📊 Dashboard
-- Personalized welcome message
-- Statistics cards:
-  - Total cards
-  - Cards learned
-  - Study streak
-  - Total hours studied
-- Recent sets preview
-
-### ⚙️ Settings
-- Theme selector
-- Appearance customization
-- Notification preferences (coming soon)
-- Data management
-
-### 🌟 Modern Design
-- Glassmorphism effects
-- Smooth animations and transitions
-- Responsive layout (mobile/tablet/desktop)
-- Custom scrollbars
-- Professional UI/UX
-
-### ☁️ Cloud Sync Ready
-- Local data persistence
-- Foundation for cross-device sync
-- Backend integration ready
-- Session recovery
+| Feature | Details |
+|---|---|
+| 🔐 **Login / Register** | Email & password auth via Firebase |
+| ☁️ **Cross-Device Sync** | All data saved to the cloud in real-time |
+| 🌙 **Dark Mode** | Deep indigo — easy on the eyes at night |
+| ☀️ **Light Mode** | Clean white workspace |
+| 🍵 **Eye Protection** | Warm amber tones, reduced blue light |
+| 🃏 **Flashcard Mode** | Flip cards, star, mark Know It / Still Learning |
+| 🧠 **Learn Mode** | Auto-generated multiple-choice questions |
+| ⚡ **Match Mode** | Timed tile-matching game |
+| ✍️ **Write Mode** | Type answers to test recall |
+| 📝 **Test Mode** | Full mixed test, graded with missed cards shown |
+| ⚙️ **Settings** | Theme picker, preferences, account info |
 
 ---
 
-## 🚀 Quick Start
+## 🔥 Step 1 — Set Up Firebase (Free, ~5 min)
 
-### Option 1: Open Locally
-1. Download the `index.html` file
-2. Double-click to open in your browser
-3. Create an account and start learning!
+### 1.1 Create a Firebase Project
+1. Go to **https://console.firebase.google.com**
+2. Click **"Create a project"** → name it anything → Create
+3. Disable Google Analytics (not needed) → Continue
 
-### Option 2: GitHub Pages (Recommended)
-1. Fork or clone this repository
-2. Enable GitHub Pages in repository settings
-3. Access your app at: `https://your-username.github.io/studyhub/`
+### 1.2 Enable Email/Password Auth
+1. Sidebar → **Build → Authentication → Get started**
+2. Click **Email/Password** → Enable → Save
 
-### Option 3: Deploy Online
-- Netlify, Vercel, Firebase Hosting
-- Any static file hosting service
-- Your own web server
+### 1.3 Create Firestore Database
+1. Sidebar → **Build → Firestore Database → Create database**
+2. Choose **"Start in test mode"** → Next → pick a region → Enable
 
----
-
-## 📖 How to Use
-
-### First Time
-1. Click "Create Account"
-2. Enter your name, email, and password
-3. Click "Create Account"
-4. Start studying!
-
-### Study Workflow
-1. Go to **Flashcards** section
-2. Select a study mode:
-   - **Flashcards**: Click to flip cards
-   - **Learn**: Answer multiple choice questions
-   - **Test**: Take a timed exam
-3. Complete your session
-4. Check your progress on Dashboard
-
-### Change Theme
-1. Go to **Settings** ⚙️
-2. Select your preferred theme
-3. Changes apply instantly
-
-### Access Your Data
-- All data is saved locally in your browser
-- Data persists across sessions
-- No account sync yet (coming in v2)
+### 1.4 Get Your Config
+1. Click ⚙️ gear icon → **Project settings**
+2. Scroll to **"Your apps"** → click **Web icon** `</>`
+3. Give it a nickname → **Register app**
+4. Copy the 6 values from the `firebaseConfig` object shown
 
 ---
 
-## 🔧 Technical Details
+## 📝 Step 2 — Add Config to the HTML
 
-### Technology Stack
-- **HTML5** - Semantic structure
-- **CSS3** - Modern styling with CSS variables
-- **JavaScript (ES6+)** - Vanilla JS (no dependencies)
-- **localStorage** - Client-side data persistence
+Open `index.html` in any text editor and find:
 
-### Browser Support
-- ✅ Chrome 90+
-- ✅ Firefox 88+
-- ✅ Safari 14+
-- ✅ Edge 90+
-- ✅ Mobile browsers
+```javascript
+const FIREBASE_CONFIG = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+```
 
-### File Structure
-
+Replace each `"YOUR_..."` with your actual Firebase values. Save the file.
 
 ---
 
-**Last Updated:** March 27, 2026  
-**Status:** Stable Release 🎓  
-**Version:** 1.0.0
+## 🚀 Step 3 — Upload to GitHub & Go Live
+
+1. Go to **github.com** → New repository → name it `studyhub` → Public → Create
+2. Click **Add file → Upload files** → drag `index.html` → Commit
+3. **Settings → Pages** → Branch: `main`, Folder: `/(root)` → Save
+4. After ~60s your app is live at: `https://YOUR-USERNAME.github.io/studyhub/`
+
+---
+
+## 🔒 Step 4 — Secure Your Database
+
+In Firebase Console → **Firestore → Rules**, replace with:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+```
+
+Click **Publish**.
+
+---
+
+## 🎹 Keyboard Shortcuts
+
+| Key | Action |
+|---|---|
+| `Space` | Flip flashcard |
+| `→` / `↓` | Next card |
+| `←` / `↑` | Previous card |
+| `1` | Mark "Know It" |
+| `2` | Mark "Still Learning" |
+| `Alt + 1–8` | Switch pages |
+| `Escape` | Close modals |
+
+---
+
+## ❓ Troubleshooting
+
+- **Blank screen** → Check browser console (F12) for Firebase config errors
+- **Login fails** → Confirm Email/Password auth is enabled in Firebase
+- **Data not saving** → Confirm Firestore is created and in test mode
