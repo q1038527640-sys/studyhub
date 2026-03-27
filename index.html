@@ -1297,23 +1297,14 @@ option { background: var(--surface2); }
 //  3. Firestore Database → Create database → choose region
 //  4. Firestore → Rules → paste the security rules from SECURITY_RULES.md
 // ════════════════════════════════════════════════
-const FIREBASE_CONFIG = {
-  apiKey:            window.__SH_API_KEY__             || "AIzaSyAsn_48z4-v-DKYC81xUgOmrT8DKfLjlLg",
-  authDomain:        window.__SH_AUTH_DOMAIN__         || "studyhub-983e8.firebaseapp.com",
-  projectId:         window.__SH_PROJECT_ID__          || "studyhub-983e8",
-  storageBucket:     window.__SH_STORAGE_BUCKET__      || "studyhub-983e8.firebasestorage.app",
-  messagingSenderId: window.__SH_MESSAGING_SENDER_ID__ || "724774244287",
-  appId:             window.__SH_APP_ID__              || "1:724774244287:web:b818bfe6e9819914685b0a"
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
-
-// Config sanity check — remove once keys are set
-if (FIREBASE_CONFIG.apiKey.startsWith("PASTE_")) {
-  console.error(
-    "[StudyHub] ⚠️  Firebase config not set.\n" +
-    "Open index.html and replace the PASTE_YOUR_* placeholders\n" +
-    "with your real Firebase project values."
-  );
-}
 
 // ── INIT FIREBASE ──
 let db, auth;
