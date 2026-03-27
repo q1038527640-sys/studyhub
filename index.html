@@ -1,86 +1,49 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyHub</title>
-    <style>
-        /* Enhance visual design with glassmorphism */
-        body {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            color: #333;
-            font-family: Arial, sans-serif;
-        }
-        /* Add styles for dark mode, light mode, and eye protection mode */
-        .dark-mode {
-            background-color: #121212;
-            color: #ffffff;
-        }
-        .light-mode {
-            background-color: #ffffff;
-            color: #000000;
-        }
-        .eye-protection-mode {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to StudyHub</h1>
-    <div id="auth-system">
-        <h2>Authentication</h2>
-        <button onclick="login()">Login</button>
-        <button onclick="register()">Register</button>
-    </div>
-    <div id="flashcards">
-        <h2>Flashcards</h2>
-        <button onclick="showFlashcards()">Flashcards</button>
-        <button onclick="learnMode()">Learn</button>
-        <button onclick="testMode()">Test</button>
-    </div>
-    <div id="settings">
-        <h2>Settings</h2>
-        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-        <button onclick="toggleLightMode()">Toggle Light Mode</button>
-        <button onclick="toggleEyeProtectionMode()">Toggle Eye Protection Mode</button>
-    </div>
-    <div id="cloud-sync">
-        <h2>Cloud Sync</h2>
-        <button onclick="syncWithCloud()">Sync Across Devices</button>
-    </div>
-    <script>
-        function login() {
-            // Implement login functionality
-            alert('Login functionality not implemented yet.');
-        }
-        function register() {
-            // Implement registration functionality
-            alert('Register functionality not implemented yet.');
-        }
-        function showFlashcards() {
-            // Implement flashcard showing functionality
-            alert('Flashcard mode not implemented yet.');
-        }
-        function learnMode() {
-            // Implement learn mode functionality
-            alert('Learn mode not implemented yet.');
-        }
-        function testMode() {
-            // Implement test mode functionality
-            alert('Test mode not implemented yet.');
-        }
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
-        function toggleLightMode() {
-            document.body.classList.toggle('light-mode');
-        }
-        function toggleEyeProtectionMode() {
-            document.body.classList.toggle('eye-protection-mode');
-        }
-        function syncWithCloud() {
-            // Implement cloud synchronization functionality
-            alert('Cloud sync functionality not implemented yet.');
-        }
-    </script>
+    <header>
+        <h1>Welcome to StudyHub</h1>
+    </header>
+    <main>
+        <section id="auth">
+            <h2>Authentication</h2>
+            <form id="login-form">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <form id="register-form">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </section>
+        <section id="study-modes">
+            <h2>Study Modes</h2>
+            <button id="flashcards">Flashcards</button>
+            <button id="learn">Learn</button>
+            <button id="test">Test</button>
+        </section>
+        <section id="themes">
+            <h2>Themes</h2>
+            <button id="dark-mode">Dark Mode</button>
+            <button id="light-mode">Light Mode</button>
+            <button id="eye-protection">Eye Protection Mode</button>
+        </section>
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <p>Statistics and progress will be shown here.</p>
+        </section>
+    </main>
+    <footer>
+        <p>© 2026 StudyHub, All Rights Reserved</p>
+    </footer>
+    <script src="app.js"></script>
 </body>
 </html>
