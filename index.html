@@ -1295,7 +1295,7 @@ const firebaseConfig = {
 // ── INIT FIREBASE ──
 let db, auth;
 try {
-  firebase.initializeApp(FIREBASE_CONFIG);
+  firebase.initializeApp(firebaseConfig);
   db   = firebase.firestore();
   auth = firebase.auth();
 } catch(e) {
