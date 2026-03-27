@@ -1,138 +1,156 @@
-# 📚 StudyHub — Student Productivity App
+# 📚 StudyHub — Quizlet-Style Learning Platform
 
-A complete, offline-first student productivity dashboard built in a single HTML file.  
-No frameworks to install. No internet required. Just open and use.
+A modern, feature-rich student productivity and learning app built as a single HTML file. Study smarter with Quizlet-like flashcard modes, multiple themes, and beautiful UI.
 
----
+**No frameworks. No installation. No internet required. Just open and learn.**
 
-## ✨ Features
-
-| Feature | Description |
-|---|---|
-| 📊 **Dashboard** | Overview of tasks, events, and subject progress |
-| 📅 **Calendar** | Monthly calendar with colour-coded events |
-| ✅ **Task Manager** | Add tasks with priority, subject, due date, and notes |
-| 📓 **Notes** | Subject-organised note-taking with search |
-| 🃏 **Flashcards** | Study cards with flip animation and shuffle |
-| ⏱️ **Pomodoro Timer** | Customisable focus timer with session logging |
-| 🎓 **Subjects** | Manage subjects with colour tags and progress tracking |
-
-**All data is saved automatically in your browser's localStorage — no account or server needed.**
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-stable-brightgreen)
 
 ---
 
-## 🚀 How to Upload to GitHub (Step-by-Step)
+## ✨ Key Features
 
-### Step 1 — Create a GitHub Account
-1. Go to [https://github.com](https://github.com)
-2. Click **Sign up** and follow the instructions
-3. Verify your email address
+### 🔐 Authentication
+- User registration and login
+- Email and password validation
+- Session management
+- User profile with avatar
+- Secure logout
 
----
+### 📚 Quizlet-Style Study Modes
 
-### Step 2 — Create a New Repository
-1. Once logged in, click the **+** icon (top-right) → **New repository**
-2. Fill in:
-   - **Repository name**: `studyhub` (or any name you like)
-   - **Description**: `My student productivity dashboard`
-   - Set it to **Public** (so GitHub Pages can host it for free)
-   - Check **Add a README file**
-3. Click **Create repository**
+#### 🃏 Flashcards Mode
+- Interactive 3D card flip animations
+- Click to reveal answers
+- Previous/Next navigation
+- Mark cards as "Got it" or "Again"
+- Progress tracking
+- Card statistics
 
----
+#### 🧠 Learn Mode
+- Multiple-choice questions
+- 4 options per question
+- Instant feedback (green/red)
+- Auto-advance system
+- Progress bar
+- Session summary
 
-### Step 3 — Upload the File
-1. Inside your new repository, click **Add file** → **Upload files**
-2. Drag and drop the `index.html` file onto the upload area (or click to browse)
-3. Scroll down and click **Commit changes**
+#### 📝 Test Mode
+- Timed exam format
+- Real-time countdown timer
+- Full scoring system
+- Percentage-based results
+- Performance analytics
+- Retake option
 
-Your file is now on GitHub!
+### 🎨 Three Beautiful Themes
 
----
+| Theme | Features |
+|-------|----------|
+| **🌙 Dark Mode** | Purple accent, dark background, night-time optimized |
+| **☀️ Light Mode** | Blue accent, white background, professional look |
+| **👁️ Eye Protection** | Warm amber tones, reduced blue light, extended study comfort |
 
-### Step 4 — Enable GitHub Pages (Free Hosting!)
-This makes your app accessible from any browser via a link.
+### 📊 Dashboard
+- Personalized welcome message
+- Statistics cards:
+  - Total cards
+  - Cards learned
+  - Study streak
+  - Total hours studied
+- Recent sets preview
 
-1. In your repository, click **Settings** (top menu)
-2. Scroll down and click **Pages** (left sidebar)
-3. Under **Source**, select:
-   - Branch: `main`
-   - Folder: `/ (root)`
-4. Click **Save**
-5. Wait 60 seconds, then refresh the page
-6. You will see: **"Your site is live at https://YOUR-USERNAME.github.io/studyhub/"**
+### ⚙️ Settings
+- Theme selector
+- Appearance customization
+- Notification preferences (coming soon)
+- Data management
 
-Your app is now live on the internet!
+### 🌟 Modern Design
+- Glassmorphism effects
+- Smooth animations and transitions
+- Responsive layout (mobile/tablet/desktop)
+- Custom scrollbars
+- Professional UI/UX
 
----
-
-### Step 5 — Access Your App
-- **Local**: Double-click `index.html` on your computer to open it in any browser
-- **Online**: Visit `https://YOUR-USERNAME.github.io/studyhub/`
-- Bookmark it on your phone or desktop for quick access
-
----
-
-## How to Update the App Later
-
-### Option A — Upload via Browser (Easy)
-1. Go to your GitHub repository
-2. Click on `index.html`
-3. Click the pencil icon (Edit)
-4. Delete all old content and paste in the new code
-5. Click **Commit changes**
-
-### Option B — GitHub Desktop (Recommended for regular use)
-1. Download [GitHub Desktop](https://desktop.github.com/)
-2. Sign in with your GitHub account
-3. Click **Clone a repository** and select your `studyhub` repo
-4. Replace the `index.html` file on your computer
-5. In GitHub Desktop, write a commit message and click **Commit to main** then **Push origin**
-
----
-
-## Keyboard Shortcuts
-
-| Shortcut | Action |
-|---|---|
-| `Alt + 1` | Dashboard |
-| `Alt + 2` | Calendar |
-| `Alt + 3` | Tasks |
-| `Alt + 4` | Notes |
-| `Alt + 5` | Flashcards |
-| `Alt + 6` | Timer |
-| `Alt + 7` | Subjects |
-| `Escape` | Close modal |
+### ☁️ Cloud Sync Ready
+- Local data persistence
+- Foundation for cross-device sync
+- Backend integration ready
+- Session recovery
 
 ---
 
-## Tips for Getting Started
+## 🚀 Quick Start
 
-1. **Start with Subjects** — Add your subjects first so you can tag tasks, notes, and events
-2. **Double-click** a calendar event to edit it
-3. **Click a flashcard** to flip between question and answer
-4. Allow **browser notifications** for Pomodoro timer alerts
-5. Your data saves automatically — clearing browser data will erase it
+### Option 1: Open Locally
+1. Download the `index.html` file
+2. Double-click to open in your browser
+3. Create an account and start learning!
 
----
+### Option 2: GitHub Pages (Recommended)
+1. Fork or clone this repository
+2. Enable GitHub Pages in repository settings
+3. Access your app at: `https://your-username.github.io/studyhub/`
 
-## Privacy
-
-All data is stored **only in your browser** using `localStorage`. Nothing is sent to any server.
-
-To back up your data, open the browser console (`F12` → Console) and type:
-```js
-JSON.stringify(localStorage)
-```
-Copy and save the output somewhere safe.
+### Option 3: Deploy Online
+- Netlify, Vercel, Firebase Hosting
+- Any static file hosting service
+- Your own web server
 
 ---
 
-## File Structure
+## 📖 How to Use
 
-```
-studyhub/
-└── index.html    (the entire app)
-```
+### First Time
+1. Click "Create Account"
+2. Enter your name, email, and password
+3. Click "Create Account"
+4. Start studying!
 
-Everything is in one file for maximum simplicity.
+### Study Workflow
+1. Go to **Flashcards** section
+2. Select a study mode:
+   - **Flashcards**: Click to flip cards
+   - **Learn**: Answer multiple choice questions
+   - **Test**: Take a timed exam
+3. Complete your session
+4. Check your progress on Dashboard
+
+### Change Theme
+1. Go to **Settings** ⚙️
+2. Select your preferred theme
+3. Changes apply instantly
+
+### Access Your Data
+- All data is saved locally in your browser
+- Data persists across sessions
+- No account sync yet (coming in v2)
+
+---
+
+## 🔧 Technical Details
+
+### Technology Stack
+- **HTML5** - Semantic structure
+- **CSS3** - Modern styling with CSS variables
+- **JavaScript (ES6+)** - Vanilla JS (no dependencies)
+- **localStorage** - Client-side data persistence
+
+### Browser Support
+- ✅ Chrome 90+
+- ✅ Firefox 88+
+- ✅ Safari 14+
+- ✅ Edge 90+
+- ✅ Mobile browsers
+
+### File Structure
+
+
+---
+
+**Last Updated:** March 27, 2026  
+**Status:** Stable Release 🎓  
+**Version:** 1.0.0
